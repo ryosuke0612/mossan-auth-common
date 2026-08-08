@@ -1,0 +1,195 @@
+:root {
+  color-scheme: light;
+  --auth-bg: #f6f0e5;
+  --auth-surface: #fffdf8;
+  --auth-text: #26211d;
+  --auth-muted: #6e655d;
+  --auth-border: #d9cec1;
+  --auth-primary: #6f1d2b;
+  --auth-primary-hover: #541520;
+  --auth-focus: #b66c27;
+  --auth-error-bg: #fff0f0;
+  --auth-error-text: #9b1c1c;
+  --auth-info-bg: #edf7ef;
+  --auth-info-text: #245d32;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--auth-bg);
+  color: var(--auth-text);
+  font-family: "Noto Sans JP", "Yu Gothic", "Meiryo", sans-serif;
+  line-height: 1.6;
+}
+
+a { color: var(--auth-primary); }
+
+.auth-header {
+  min-height: 68px;
+  background: var(--auth-surface);
+  border-bottom: 1px solid var(--auth-border);
+}
+
+.auth-header__inner {
+  width: min(1100px, calc(100% - 32px));
+  min-height: 68px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.auth-logo,
+.auth-header__login {
+  text-decoration: none;
+}
+
+.auth-logo__text {
+  color: var(--auth-text);
+  font-size: clamp(1.15rem, 4vw, 1.55rem);
+  font-weight: 900;
+  letter-spacing: .02em;
+}
+
+.auth-header__login { font-weight: 700; }
+
+.auth-main {
+  flex: 1;
+  width: 100%;
+  padding: 48px 16px;
+  display: grid;
+  place-items: start center;
+}
+
+.auth-card {
+  width: min(100%, 520px);
+  padding: clamp(24px, 5vw, 42px);
+  border: 1px solid var(--auth-border);
+  border-radius: 18px;
+  background: var(--auth-surface);
+  box-shadow: 0 16px 40px rgb(55 39 27 / 10%);
+}
+
+.auth-title {
+  margin: 0 0 24px;
+  text-align: center;
+  font-size: clamp(1.6rem, 6vw, 2.15rem);
+  line-height: 1.25;
+}
+
+.auth-description {
+  margin: -10px 0 24px;
+  color: var(--auth-muted);
+  text-align: center;
+}
+
+.auth-form { display: grid; gap: 20px; }
+.auth-field { display: grid; gap: 7px; }
+.auth-field label { font-weight: 700; }
+
+.auth-input-wrap {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--auth-border);
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.auth-input-wrap:focus-within {
+  border-color: var(--auth-focus);
+  box-shadow: 0 0 0 3px rgb(182 108 39 / 20%);
+}
+
+.auth-input-icon {
+  width: 48px;
+  flex: 0 0 48px;
+  color: var(--auth-muted);
+  text-align: center;
+  font-weight: 700;
+}
+
+.auth-input-wrap input {
+  width: 100%;
+  min-width: 0;
+  height: 50px;
+  padding: 0 14px 0 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--auth-text);
+  font: inherit;
+}
+
+.auth-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  flex-wrap: wrap;
+  font-size: .93rem;
+}
+
+.auth-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.auth-check input { width: 18px; height: 18px; }
+
+.auth-submit {
+  min-height: 52px;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--auth-primary);
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.auth-submit:hover { background: var(--auth-primary-hover); }
+.auth-submit:focus-visible,
+a:focus-visible { outline: 3px solid var(--auth-focus); outline-offset: 3px; }
+
+.auth-message {
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  white-space: pre-line;
+}
+
+.auth-message--error { background: var(--auth-error-bg); color: var(--auth-error-text); }
+.auth-message--info { background: var(--auth-info-bg); color: var(--auth-info-text); }
+
+.auth-back-link { justify-self: center; }
+
+.auth-footer {
+  padding: 20px 16px 28px;
+  display: flex;
+  justify-content: center;
+  gap: 8px 18px;
+  flex-wrap: wrap;
+  color: var(--auth-muted);
+  font-size: .85rem;
+}
+
+@media (max-width: 560px) {
+  .auth-header__inner { width: min(100% - 24px, 1100px); }
+  .auth-header__login { font-size: .85rem; }
+  .auth-main { padding: 28px 12px; }
+  .auth-card { border-radius: 14px; }
+  .auth-options { align-items: flex-start; flex-direction: column; }
+  .auth-submit { width: 100%; }
+}
+

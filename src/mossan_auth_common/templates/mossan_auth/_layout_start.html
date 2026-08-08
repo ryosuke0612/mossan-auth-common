@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title }} | {{ auth_ui.app_name }}</title>
+  {% if auth_ui.favicon_url %}<link rel="icon" href="{{ auth_ui.favicon_url }}">{% endif %}
+  <link rel="stylesheet" href="{{ url_for('mossan_auth.static', filename='auth.css') }}">
+</head>
+<body>
+  <header class="auth-header">
+    <div class="auth-header__inner">
+      <a class="auth-logo" href="{{ auth_ui.logo_href }}" aria-label="{{ auth_ui.app_name }}">
+        <span class="auth-logo__text">{{ auth_ui.logo_text }}</span>
+      </a>
+      <a class="auth-header__login" href="{{ auth_ui.login_url }}">管理者ログイン</a>
+    </div>
+  </header>
+  <main class="auth-main">
+

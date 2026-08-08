@@ -1,0 +1,54 @@
+# mossan-auth-common
+
+Mossan Store 配下の各Flaskアプリで利用する共通認証パッケージです。
+
+出欠ボード＋の運用中の認証フローを基準に、次を共通化します。
+
+- ログイン、パスワード再設定の画面
+- 認証画面のCSS
+- 登録確認、パスワード再設定などのメール文面
+- 認証ポリシーの既定値
+- 認証関連DBの論理スキーマ
+
+アカウントデータと業務データはアプリごとのDBへ保存します。このパッケージは、各アプリのDB接続や業務権限を管理しません。
+
+## 基準値
+
+- 登録確認URL: 24時間
+- パスワード再設定URL: 1時間
+- ログイン状態保持: 30日
+- パスワード: 8文字以上（出欠ボード＋の現状値。今後見直し可能）
+
+## Flaskアプリでの利用例
+
+```python
+from mossan_auth_common.flask_ui import AuthUIConfig, init_auth_ui, render_login
+
+init_auth_ui(
+    app,
+    AuthUIConfig(
+        app_name="出欠ボード＋",
+        logo_text="出欠ボード＋",
+        logo_href="https://example.com/",
+        login_url="/admin/login",
+    ),
+)
+
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login_entry():
+    # 認証処理はアプリ側で行う
+    return render_login(
+        form_action="/admin/login",
+        forgot_password_url="/admin/password/forgot",
+    )
+```
+
+## 開発時の確認
+
+```powershell
+python -m pip install -e .
+python -m unittest discover -s tests -v
+```
+
+実際の配布ではバージョンタグを固定し、テスト後に各アプリを順次更新します。最新版の無条件自動取得は行いません。
