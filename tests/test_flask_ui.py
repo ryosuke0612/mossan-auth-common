@@ -47,6 +47,7 @@ class FlaskUITests(unittest.TestCase):
             return render_password_reset(
                 csrf_token="test-reset-csrf-token",
                 form_action=f"/admin/password/reset/{token}",
+                forgot_password_url="/admin/password/forgot",
             )
 
         self.client = app.test_client()
@@ -62,12 +63,19 @@ class FlaskUITests(unittest.TestCase):
         self.assertIn('name="remember_admin"', html)
         self.assertIn('name="csrf_token" value="test-csrf-token"', html)
         self.assertIn('value="/dashboard"', html)
-        self.assertIn("運営: Mossan Store", html)
+        self.assertIn('class="auth-logo__text">KYP</span>', html)
+        self.assertIn('class="auth-form-footer"', html)
+        self.assertIn("<svg", html)
+        self.assertNotIn("運営: Mossan Store", html)
 
     def test_common_stylesheet_is_served(self):
         with self.client.get("/_mossan-auth/assets/auth.css") as response:
             self.assertEqual(response.status_code, 200)
-            self.assertIn("--auth-primary", response.get_data(as_text=True))
+            css = response.get_data(as_text=True)
+            self.assertIn("color-scheme: dark", css)
+            self.assertIn("radial-gradient", css)
+            self.assertIn("#1b1012", css)
+            self.assertIn("width: min(620px, 100%)", css)
 
     def test_password_forms_include_their_csrf_token(self):
         cases = (
@@ -80,6 +88,12 @@ class FlaskUITests(unittest.TestCase):
                     self.assertEqual(response.status_code, 200)
                     html = response.get_data(as_text=True)
                 self.assertIn(f'name="csrf_token" value="{token}"', html)
+
+    def test_password_reset_can_link_back_to_resend_email(self):
+        with self.client.get("/admin/password/reset/test-token") as response:
+            self.assertEqual(response.status_code, 200)
+            html = response.get_data(as_text=True)
+        self.assertIn('href="/admin/password/forgot">メールを再送する</a>', html)
 
     def test_all_auth_forms_require_a_csrf_token(self):
         renderers = (

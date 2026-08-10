@@ -104,6 +104,7 @@ def render_password_reset(
     *,
     csrf_token: str,
     form_action: str,
+    forgot_password_url: str = "",
     error_message: str = "",
     info_message: str = "",
 ) -> str:
@@ -111,6 +112,7 @@ def render_password_reset(
         "mossan_auth/password_reset.html",
         csrf_token=_required_csrf_token(csrf_token),
         form_action=form_action,
+        forgot_password_url=forgot_password_url,
         error_message=error_message,
         info_message=info_message,
     )

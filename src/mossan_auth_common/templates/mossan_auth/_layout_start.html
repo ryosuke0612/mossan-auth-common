@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ page_title }} | {{ auth_ui.app_name }}</title>
   {% if auth_ui.favicon_url %}<link rel="icon" href="{{ auth_ui.favicon_url }}">{% endif %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&family=Noto+Sans+JP:wght@400;700;900&family=Yomogi&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('mossan_auth.static', filename='auth.css') }}">
 </head>
 <body>
@@ -13,7 +16,9 @@
       <a class="auth-logo" href="{{ auth_ui.logo_href }}" aria-label="{{ auth_ui.app_name }}">
         <span class="auth-logo__text">{{ auth_ui.logo_text }}</span>
       </a>
-      <a class="auth-header__login" href="{{ auth_ui.login_url }}">管理者ログイン</a>
+      <nav class="auth-nav" aria-label="認証メニュー">
+        <a class="auth-header__login" href="{{ auth_ui.login_url }}">管理者ログイン</a>
+      </nav>
     </div>
   </header>
   <main class="auth-main">

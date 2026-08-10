@@ -1,8 +1,14 @@
   </main>
-  <footer class="auth-footer">
-    <span>{{ auth_ui.app_name }}</span>
-    <span>運営: Mossan Store</span>
-  </footer>
+  <script>
+  (() => {
+    document.querySelectorAll('.auth-message').forEach((notice) => {
+      window.setTimeout(() => {
+        notice.classList.add('is-dismissing');
+        window.setTimeout(() => notice.remove(), 500);
+      }, 4000);
+    });
+  })();
+  </script>
 </body>
 </html>
 
