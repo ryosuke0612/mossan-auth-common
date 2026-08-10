@@ -15,4 +15,14 @@ dist/
 .env
 .env.*
 !.env.example
+.flaskenv
 
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+
+*.db
+*.sqlite
+*.log

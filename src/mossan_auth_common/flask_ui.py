@@ -50,8 +50,15 @@ def _render(template_name: str, **context: Any) -> str:
     return render_template(template_name, auth_ui=_config(), **context)
 
 
+def _required_csrf_token(csrf_token: str) -> str:
+    if not isinstance(csrf_token, str) or not csrf_token.strip():
+        raise ValueError("csrf_token is required for authentication forms")
+    return csrf_token
+
+
 def render_login(
     *,
+    csrf_token: str,
     form_action: str,
     forgot_password_url: str,
     error_message: str = "",
@@ -63,6 +70,7 @@ def render_login(
 ) -> str:
     return _render(
         "mossan_auth/login.html",
+        csrf_token=_required_csrf_token(csrf_token),
         form_action=form_action,
         forgot_password_url=forgot_password_url,
         error_message=error_message,
@@ -76,6 +84,7 @@ def render_login(
 
 def render_password_forgot(
     *,
+    csrf_token: str,
     form_action: str,
     error_message: str = "",
     info_message: str = "",
@@ -83,6 +92,7 @@ def render_password_forgot(
 ) -> str:
     return _render(
         "mossan_auth/password_forgot.html",
+        csrf_token=_required_csrf_token(csrf_token),
         form_action=form_action,
         error_message=error_message,
         info_message=info_message,
@@ -91,12 +101,16 @@ def render_password_forgot(
 
 
 def render_password_reset(
-    *, form_action: str, error_message: str = "", info_message: str = ""
+    *,
+    csrf_token: str,
+    form_action: str,
+    error_message: str = "",
+    info_message: str = "",
 ) -> str:
     return _render(
         "mossan_auth/password_reset.html",
+        csrf_token=_required_csrf_token(csrf_token),
         form_action=form_action,
         error_message=error_message,
         info_message=info_message,
     )
-

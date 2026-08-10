@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mossan-auth-common"
-version = "0.1.0"
+version = "0.2.0"
 description = "Shared authentication UI, email templates, policy, and schema contract for Mossan Store apps"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -23,4 +23,3 @@ mossan_auth_common = [
   "templates/mossan_auth/*.html",
   "static/*.css",
 ]
-

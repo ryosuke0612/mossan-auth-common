@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urlsplit
 
 
 @dataclass(frozen=True, slots=True)
@@ -35,10 +35,26 @@ def safe_next_path(value: str | None, fallback: str) -> str:
     raw_value = (value or "").strip()
     if not raw_value:
         return fallback
-    parsed = urlsplit(raw_value)
-    if parsed.scheme or parsed.netloc or not raw_value.startswith("/"):
-        return fallback
-    if raw_value.startswith("//"):
-        return fallback
-    return raw_value
 
+    candidate = raw_value
+    while True:
+        if "\\" in candidate or any(ord(char) < 32 or ord(char) == 127 for char in candidate):
+            return fallback
+        try:
+            parsed = urlsplit(candidate)
+        except ValueError:
+            return fallback
+        if (
+            parsed.scheme
+            or parsed.netloc
+            or not candidate.startswith("/")
+            or candidate.startswith("//")
+        ):
+            return fallback
+
+        decoded = unquote(candidate)
+        if decoded == candidate:
+            break
+        candidate = decoded
+
+    return raw_value

@@ -4,6 +4,7 @@
   <h1 id="auth-title" class="auth-title">管理者ログイン</h1>
   {% include "mossan_auth/_messages.html" %}
   <form method="post" action="{{ form_action }}" class="auth-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     {% if next_value %}<input type="hidden" name="next" value="{{ next_value }}">{% endif %}
     <div class="auth-field">
       <label for="auth-email">メールアドレス</label>
@@ -30,4 +31,3 @@
   </form>
 </section>
 {% include "mossan_auth/_layout_end.html" %}
-
