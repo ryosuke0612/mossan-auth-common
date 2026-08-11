@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Any
 
@@ -9,6 +10,8 @@ from flask import Blueprint, Flask, current_app, render_template
 
 
 EXTENSION_KEY = "mossan_auth_common"
+_VALID_LOGO_VARIANTS = frozenset({"handwritten", "product"})
+_HEX_COLOR_PATTERN = re.compile(r"#[0-9a-fA-F]{3}(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{5})?\Z")
 
 
 @dataclass(frozen=True, slots=True)
@@ -19,6 +22,21 @@ class AuthUIConfig:
     login_url: str
     favicon_url: str = ""
     support_contact: str = ""
+    logo_variant: str = "handwritten"
+    logo_main_text: str = ""
+    logo_suffix_text: str = ""
+    logo_accent_color: str = ""
+
+    def __post_init__(self) -> None:
+        if self.logo_variant not in _VALID_LOGO_VARIANTS:
+            raise ValueError(f"Unsupported logo_variant: {self.logo_variant}")
+        if self.logo_suffix_text and not self.logo_main_text:
+            raise ValueError("logo_main_text is required when logo_suffix_text is set")
+        if self.logo_accent_color:
+            if not self.logo_suffix_text:
+                raise ValueError("logo_suffix_text is required when logo_accent_color is set")
+            if not _HEX_COLOR_PATTERN.fullmatch(self.logo_accent_color):
+                raise ValueError("logo_accent_color must be a 3, 6, or 8 digit hex color")
 
 
 auth_ui_blueprint = Blueprint(

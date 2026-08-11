@@ -65,3 +65,19 @@ python -m unittest discover -s tests -v
 
 `0.2.1`では、認証画面の見た目を基準アプリである出欠ボード＋の従来デザインへ戻しました。
 `0.2.0`と認証処理の呼び出し方法は同じで、DBや認証ロジックへの変更はありません。
+
+`0.2.2`では、共通レイアウトを維持したままアプリ固有のロゴ字体と接尾文字の色を指定できます。
+既定値は従来の手書き風ロゴであるため、`0.2.1`の利用アプリの表示は変わりません。
+
+```python
+AuthUIConfig(
+    app_name="LightSketch+",
+    logo_text="LightSketch+",
+    logo_href="https://example.com/lightsketch/",
+    login_url="/login",
+    logo_variant="product",
+    logo_main_text="LightSketch",
+    logo_suffix_text="+",
+    logo_accent_color="#ff8a00",
+)
+```

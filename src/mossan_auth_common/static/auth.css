@@ -71,6 +71,26 @@ a { color: inherit; }
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.36);
 }
 
+.auth-logo__text--product {
+  align-items: baseline;
+  gap: 4px;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 28px;
+  letter-spacing: 0;
+}
+
+.auth-logo__text--product .auth-logo__main {
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45), 0 0 10px rgba(255, 66, 66, 0.24);
+}
+
+.auth-logo__text--product .auth-logo__suffix {
+  color: var(--auth-logo-accent, currentColor);
+  font-size: 1.2em;
+  line-height: 1;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45), 0 0 12px color-mix(in srgb, var(--auth-logo-accent, currentColor) 32%, transparent);
+}
+
 .auth-nav {
   display: flex;
   align-items: center;

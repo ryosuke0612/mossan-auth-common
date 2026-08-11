@@ -76,6 +76,59 @@ class FlaskUITests(unittest.TestCase):
             self.assertIn("radial-gradient", css)
             self.assertIn("#1b1012", css)
             self.assertIn("width: min(620px, 100%)", css)
+            self.assertIn(".auth-logo__text--product", css)
+
+    def test_product_logo_can_keep_app_specific_typography(self):
+        app = Flask(__name__)
+        app.config.update(TESTING=True, SECRET_KEY="test-only")
+        init_auth_ui(
+            app,
+            AuthUIConfig(
+                app_name="LightSketch+",
+                logo_text="LightSketch+",
+                logo_href="https://example.com/lightsketch",
+                login_url="/login",
+                logo_variant="product",
+                logo_main_text="LightSketch",
+                logo_suffix_text="+",
+                logo_accent_color="#ff8a00",
+            ),
+        )
+
+        @app.get("/login")
+        def login_page():
+            return render_login(
+                csrf_token="test-csrf-token",
+                form_action="/login",
+                forgot_password_url="/password/forgot",
+            )
+
+        with app.test_client().get("/login") as response:
+            self.assertEqual(response.status_code, 200)
+            html = response.get_data(as_text=True)
+        self.assertIn('auth-logo__text--product', html)
+        self.assertIn('style="--auth-logo-accent: #ff8a00;"', html)
+        self.assertIn('<span class="auth-logo__main">LightSketch</span>', html)
+        self.assertIn('<span class="auth-logo__suffix">+</span>', html)
+
+    def test_invalid_product_logo_settings_are_rejected(self):
+        base_config = {
+            "app_name": "Example",
+            "logo_text": "Example",
+            "logo_href": "https://example.com/",
+            "login_url": "/login",
+        }
+        with self.assertRaisesRegex(ValueError, "Unsupported logo_variant"):
+            AuthUIConfig(**base_config, logo_variant="application-name")
+        with self.assertRaisesRegex(ValueError, "logo_main_text is required"):
+            AuthUIConfig(**base_config, logo_suffix_text="+")
+        with self.assertRaisesRegex(ValueError, "3, 6, or 8 digit hex color"):
+            AuthUIConfig(
+                **base_config,
+                logo_main_text="Example",
+                logo_suffix_text="+",
+                logo_accent_color="orange",
+            )
 
     def test_password_forms_include_their_csrf_token(self):
         cases = (
