@@ -1,10 +1,12 @@
 {% set page_title = "管理者ログイン" %}
+{% set auth_login_page = true %}
 {% include "mossan_auth/_layout_start.html" %}
-<div class="auth-shell">
-<section class="auth-card" aria-labelledby="auth-title">
+<div class="auth-shell auth-shell--login">
+<section class="auth-card auth-card--login" aria-labelledby="auth-title">
   <h1 id="auth-title" class="auth-title">管理者ログイン</h1>
+  {% if login_helper_message %}<p class="auth-login-helper">{{ login_helper_message }}</p>{% endif %}
   {% include "mossan_auth/_messages.html" %}
-  <form method="post" action="{{ form_action }}" class="auth-form">
+  <form method="post" action="{{ form_action }}" class="auth-form auth-login-form">
     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
     {% if next_value %}<input type="hidden" name="next" value="{{ next_value }}">{% endif %}
     <div class="auth-field">
@@ -25,16 +27,12 @@
         <input id="auth-password" type="password" name="password" autocomplete="current-password" placeholder="パスワード" minlength="8" required>
       </div>
     </div>
-    <div class="auth-form-footer">
-      <div class="auth-options">
-        <label class="auth-check">
-          <input type="checkbox" name="{{ remember_field_name }}" value="1" {% if remember_checked %}checked{% endif %}>
-          <span>ログイン状態を保持</span>
-        </label>
-        <a class="auth-help-link" href="{{ forgot_password_url }}">パスワードをお忘れですか？</a>
-      </div>
-      <button class="auth-submit" type="submit">管理者としてログイン</button>
-    </div>
+    <label class="auth-check auth-check--login">
+      <input type="checkbox" name="{{ remember_field_name }}" value="1" {% if remember_checked %}checked{% endif %}>
+      <span>ログイン状態を保持する</span>
+    </label>
+    <button class="auth-submit auth-submit--login" type="submit">ログイン</button>
+    <a class="auth-help-link auth-help-link--login" href="{{ forgot_password_url }}">パスワードをお忘れですか？</a>
   </form>
 </section>
 </div>
