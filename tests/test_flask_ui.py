@@ -32,6 +32,7 @@ class FlaskUITests(unittest.TestCase):
                 form_action="/admin/login",
                 forgot_password_url="/admin/password/forgot",
                 info_message="テスト案内",
+                login_helper_message="初めてご利用の場合の案内",
                 next_value="/dashboard",
             )
 
@@ -64,7 +65,12 @@ class FlaskUITests(unittest.TestCase):
         self.assertIn('name="csrf_token" value="test-csrf-token"', html)
         self.assertIn('value="/dashboard"', html)
         self.assertIn('class="auth-logo__text">KYP</span>', html)
-        self.assertIn('class="auth-form-footer"', html)
+        self.assertIn('class="auth-form auth-login-form"', html)
+        self.assertIn("初めてご利用の場合の案内", html)
+        self.assertIn(">ログイン</button>", html)
+        self.assertIn("ログイン状態を保持する", html)
+        self.assertNotIn("管理者としてログイン", html)
+        self.assertNotIn('<nav class="auth-nav"', html)
         self.assertIn("<svg", html)
         self.assertNotIn("運営: Mossan Store", html)
 
@@ -75,7 +81,7 @@ class FlaskUITests(unittest.TestCase):
             self.assertIn("color-scheme: dark", css)
             self.assertIn("radial-gradient", css)
             self.assertIn("#1b1012", css)
-            self.assertIn("width: min(620px, 100%)", css)
+            self.assertIn("width: min(510px, 100%)", css)
             self.assertIn(".auth-logo__text--product", css)
 
     def test_product_logo_can_keep_app_specific_typography(self):
