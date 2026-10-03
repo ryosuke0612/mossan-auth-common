@@ -70,7 +70,12 @@ class FlaskUITests(unittest.TestCase):
         self.assertIn(">ログイン</button>", html)
         self.assertIn("ログイン状態を保持する", html)
         self.assertNotIn("管理者としてログイン", html)
-        self.assertNotIn('<nav class="auth-nav"', html)
+        self.assertIn('<nav class="auth-nav"', html)
+        self.assertIn(
+            'href="https://mossan-store.com/contact/">お問い合わせ</a>',
+            html,
+        )
+        self.assertNotIn('href="/admin/login">管理者ログイン</a>', html)
         self.assertIn("<svg", html)
         self.assertNotIn("運営: Mossan Store", html)
 
