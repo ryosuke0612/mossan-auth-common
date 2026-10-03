@@ -16,11 +16,13 @@
       <a class="auth-logo" href="{{ auth_ui.logo_href }}" aria-label="{{ auth_ui.app_name }}">
         {% if auth_ui.logo_main_text %}<span class="auth-logo__text{% if auth_ui.logo_variant != 'handwritten' %} auth-logo__text--{{ auth_ui.logo_variant }}{% endif %}"{% if auth_ui.logo_accent_color %} style="--auth-logo-accent: {{ auth_ui.logo_accent_color }};"{% endif %}><span class="auth-logo__main">{{ auth_ui.logo_main_text }}</span>{% if auth_ui.logo_suffix_text %}<span class="auth-logo__suffix">{{ auth_ui.logo_suffix_text }}</span>{% endif %}</span>{% else %}<span class="auth-logo__text">{{ auth_ui.logo_text }}</span>{% endif %}
       </a>
-      {% if not auth_login_page %}
-        <nav class="auth-nav" aria-label="認証メニュー">
+      <nav class="auth-nav" aria-label="認証メニュー">
+        {% if auth_login_page %}
+          <a class="auth-header__login" href="https://mossan-store.com/contact/">お問い合わせ</a>
+        {% else %}
           <a class="auth-header__login" href="{{ auth_ui.login_url }}">管理者ログイン</a>
-        </nav>
-      {% endif %}
+        {% endif %}
+      </nav>
     </div>
   </header>
   <main class="auth-main">
